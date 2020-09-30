@@ -1,0 +1,121 @@
+﻿
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:orientation="vertical">
+    <TextView
+        android:text="Godzina startu:"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        
+        
+        >
+        <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+            
+        
+        >
+            <Button
+                
+                android:text="PK 1"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button1"
+                android:onClick="NewGame" />
+            <Button
+                android:text="PK 2"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button2"/>
+            <Button
+                android:text="PK 3"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button3"/>
+            <Button
+                android:text="PK 4"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button4"/>
+         </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+        android:layout_height="match_parent">
+             <Button
+                android:text="PK 5"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button5"/>
+            <Button
+                android:text="PK 6"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button6" />
+            <Button
+                android:text="PK 7"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button7"/>
+            <Button
+                android:text="PK 8"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button8"/>
+       </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+        android:layout_height="match_parent">
+             <Button
+                android:text="PK 9"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button9"/>
+            <Button
+                android:text="PK 10"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button10"/>
+            <Button
+                android:text="PK 11"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button11"/>
+            <Button
+                android:text="PK 12"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button12"/>
+       </TableRow>
+        <Button
+                android:text="Zakończ"
+                android:layout_width="wrap_content"
+                android:layout_height="100.0dp"
+                android:textSize="20dp"
+                android:id="@+id/button13"/>
+    </TableLayout>
+    
+</LinearLayout>
