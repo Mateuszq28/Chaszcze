@@ -21,7 +21,14 @@ namespace Chaszcze
             SetContentView(Resource.Layout.akcje_);
             // Create your application here
 
+            Button pk1 = FindViewById<Button>(Resource.Id.button1);
 
+            pk1.Click += (sender, e) =>
+            {
+                // Translate user's alphanumeric phone number to numeric
+                var intent = new Intent(this, typeof(qrakcja));
+                StartActivity(intent);
+            };
         }
     }
 }
