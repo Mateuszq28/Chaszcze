@@ -82,6 +82,7 @@ namespace Chaszcze
                 else Akcje.zmienKolor(nrPunktu, "yellow");
 
                 Zarzadzanie.kodyLampionow.Add(dodany);
+                Akcje.SaveCountAsync();
             }
         }
     }

@@ -21,31 +21,31 @@ namespace Chaszcze
     {
         static public Button pk1, pk2, pk3, pk4, pk5, pk6, pk7, pk8, pk9, pk10, pk11, pk12;
         static Button zakoncz;
-        string nazwaPliku = "zapis_chaszcze.txt";
+        static string nazwaPliku = "zapis_chaszcze.txt";
 
 
-        public void zapiszGre()
+        static public async Task SaveCountAsync()
         {
             var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
             using (var writer = File.CreateText(backingFile))
             {
-                writer.WriteLine(Zarzadzanie.nazwaPatrolu);
+                await writer.WriteLineAsync(Zarzadzanie.nazwaPatrolu);
                 if (Zarzadzanie.czyGraTrwa)
                 {
-                    writer.WriteLine("1");
+                    await writer.WriteLineAsync("1");
                 }
                 else
                 {
-                    writer.WriteLine("0");
+                    await writer.WriteLineAsync("0");
                 }
             }
         }
 
 
-        
+
         protected override void OnSaveInstanceState(Bundle outState)
         {
-            zapiszGre();
+            SaveCountAsync();
             //Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki
 
             //outState.PutString("nazwaPatrolu", Zarzadzanie.nazwaPatrolu);
@@ -56,7 +56,49 @@ namespace Chaszcze
             // always call the base implementation!
             base.OnSaveInstanceState(outState);
         }
-        
+
+
+
+
+
+
+
+        public string ReadCountAsync()
+        {
+            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
+
+            if (backingFile == null || !File.Exists(backingFile))
+            {
+                return "NO FILE";
+            }
+
+            using (var reader = new StreamReader(backingFile, true))
+            {
+                string line;
+                if ((line = reader.ReadLine()) != null)
+                {
+                    Zarzadzanie.nazwaPatrolu = line;
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    if (line == "1") Zarzadzanie.czyGraTrwa = true;
+                    else Zarzadzanie.czyGraTrwa = false;
+                }
+                while ((line = reader.ReadLine()) != null)
+                {
+                    
+                }
+            }
+
+            return "FILE EXIST";
+        }
+
+
+
+
+
+
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,26 +106,9 @@ namespace Chaszcze
             SetContentView(Resource.Layout.akcje_);
             // Create your application here
 
-            string line = "";
-            using (StreamReader sr = new StreamReader(nazwaPliku))
+            
+            if (Zarzadzanie.czyNowaGra == false)
             {
-                line = sr.ReadLine();
-                Zarzadzanie.nazwaPatrolu = line;
-            }
-            if (line.Length >= 1)
-            {
-
-                using (StreamReader sr = new StreamReader(nazwaPliku))
-                {
-                    line = sr.ReadLine();
-                    if (line == "1") Zarzadzanie.czyGraTrwa = true;
-                    else Zarzadzanie.czyGraTrwa = false;
-                }
-
-
-
-
-
                 //Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki
 
                 //Zarzadzanie.nazwaPatrolu = savedInstanceState.GetString("nazwaPatrolu");
@@ -91,12 +116,16 @@ namespace Chaszcze
 
                 //Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Recovered instance state");
 
-
-                if (Zarzadzanie.czyGraTrwa == false)
+                if (ReadCountAsync() == "FILE EXIST")
                 {
-                    Toast.MakeText(this, "Brak aktywnej gry", ToastLength.Long).Show();
-                    var intent = new Intent(this, typeof(MainActivity));
-                    StartActivity(intent);
+
+
+                    if (Zarzadzanie.czyGraTrwa == false)
+                    {
+                        Toast.MakeText(this, "Brak aktywnej gry", ToastLength.Long).Show();
+                        var intent = new Intent(this, typeof(MainActivity));
+                        StartActivity(intent);
+                    }
                 }
             }
             else if (Zarzadzanie.czyGraTrwa == false)
@@ -105,8 +134,10 @@ namespace Chaszcze
                 var intent = new Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             }
-            else
+            
+            if (Zarzadzanie.czyGraTrwa != false || Zarzadzanie.czyNowaGra == true)
             {
+                SaveCountAsync();
 
                 pk1 = FindViewById<Button>(Resource.Id.button1);
                 pk2 = FindViewById<Button>(Resource.Id.button2);

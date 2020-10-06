@@ -27,6 +27,8 @@ namespace Chaszcze
         static public TimeSpan calkowityCzas;
         static public bool czyGraTrwa = false;
 
+        static public bool czyNowaGra = false;
+
         static TimeSpan limitCzasu = TimeSpan.Parse("02:00");
         static TimeSpan limitSpoznien = TimeSpan.Parse("00:45");
 

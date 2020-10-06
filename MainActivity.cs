@@ -29,14 +29,15 @@ namespace Chaszcze
             // Add code to translate number
             NowaGra.Click += (sender, e) =>
             {
-                    // Translate user's alphanumeric phone number to numeric
-
+                // Translate user's alphanumeric phone number to numeric
+                Zarzadzanie.czyNowaGra = true;
                     var intent = new Intent(this, typeof(MainMenu));
                     StartActivity(intent);
             };
 
             Wczytaj.Click += (sender, e) =>
             {
+                Zarzadzanie.czyNowaGra = false;
                 var intent = new Intent(this, typeof(Akcje));
                 StartActivity(intent);
             };
