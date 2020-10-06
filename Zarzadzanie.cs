@@ -25,10 +25,10 @@ namespace Chaszcze
         static public DateTime minutaZakonczenia;
         static public int karne;
         static public TimeSpan calkowityCzas;
-        static public bool czyGraTrwa;
+        static public bool czyGraTrwa = false;
 
-        static TimeSpan limitCzasu = TimeSpan.Parse("01:00");
-        static TimeSpan limitSpoznien = TimeSpan.Parse("02:00");
+        static TimeSpan limitCzasu = TimeSpan.Parse("02:00");
+        static TimeSpan limitSpoznien = TimeSpan.Parse("00:45");
 
         static public void dekonstruktor()
         {
@@ -83,18 +83,18 @@ namespace Chaszcze
             }
 
             //Pierwsza kolumna to wlasciwy punkt, pozostale to stowarzysze
-            string[,] wzorcowka = new string[12,10] {   { "1-BB", "1-AA", "1-AA", "1-AA", "1-AA", "1-AA", "1-AA", "1-AA", "1-AA", "1-AA" },
-                                                        { "2-BB", "2-AA", "2-AA", "2-AA", "2-AA", "2-AA", "2-AA", "2-AA", "2-AA", "2-AA" },
-                                                        { "3-BB", "3-AA", "3-AA", "3-AA", "3-AA", "3-AA", "3-AA", "3-AA", "3-AA", "3-AA" },
-                                                        { "4-BB", "4-AA", "4-AA", "4-AA", "4-AA", "4-AA", "4-AA", "4-AA", "4-AA", "4-AA" },
-                                                        { "5-BB", "5-AA", "5-AA", "5-AA", "5-AA", "5-AA", "5-AA", "5-AA", "5-AA", "5-AA" },
-                                                        { "6-BB", "6-AA", "6-AA", "6-AA", "6-AA", "6-AA", "6-AA", "6-AA", "6-AA", "6-AA" },
-                                                        { "7-BB", "7-AA", "7-AA", "7-AA", "7-AA", "7-AA", "7-AA", "7-AA", "7-AA", "7-AA" },
-                                                        { "8-BB", "8-AA", "8-AA", "8-AA", "8-AA", "8-AA", "8-AA", "8-AA", "8-AA", "8-AA" },
-                                                        { "9-BB", "9-AA", "9-AA", "9-AA", "9-AA", "9-AA", "9-AA", "9-AA", "9-AA", "9-AA" },
-                                                        { "10-BB", "10-AA", "10-AA", "10-AA", "10-AA", "10-AA", "10-AA", "10-AA", "10-AA", "10-AA" },
-                                                        { "11-BB", "11-AA", "11-AA", "11-AA", "11-AA", "11-AA", "11-AA", "11-AA", "11-AA", "11-AA" },
-                                                        { "12-BB", "12-AA", "12-AA", "12-AA", "12-AA", "12-AA", "12-AA", "12-AA", "12-AA", "12-AA" }};
+            string[,] wzorcowka = new string[12,10] {   { "1-VN", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI" },
+                                                        { "2-WK", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL" },
+                                                        { "3-NA", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE" },
+                                                        { "4-SR", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO" },
+                                                        { "5-MZ", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF" },
+                                                        { "6-BS", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY" },
+                                                        { "7-NJ", "7-BA", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD" },
+                                                        { "8-KS", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT" },
+                                                        { "9-OT", "9-HJ", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI" },
+                                                        { "10-GL", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ" },
+                                                        { "11-KL", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC" },
+                                                        { "12-PB", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ" }};
 
             for (int i = 0; i < 12; i++)
             {

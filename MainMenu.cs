@@ -41,13 +41,21 @@ namespace Chaszcze
             // Add code to translate number
             Start.Click += (sender, e) =>
             {
-                Zarzadzanie.nazwaPatrolu = text.Text;
-                Zarzadzanie.minutaStartowa = DateTime.Parse(timePicker.CurrentHour + ":" + timePicker.CurrentMinute);
-                Zarzadzanie.czasRozpoczecia = DateTime.Now;
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(Akcje));
-                StartActivity(intent);
-                
+                if (text.Text.Length >= 1)
+                {
+                    Zarzadzanie.nazwaPatrolu = text.Text;
+                    Zarzadzanie.minutaStartowa = DateTime.Parse(timePicker.CurrentHour + ":" + timePicker.CurrentMinute);
+                    Zarzadzanie.czasRozpoczecia = DateTime.Now;
+                    Zarzadzanie.czyGraTrwa = true;
+                    // Translate user's alphanumeric phone number to numeric
+                    var intent = new Intent(this, typeof(Akcje));
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Podaj nazwę patrolu!", ToastLength.Long).Show();
+                }
+             
             };
 
 
