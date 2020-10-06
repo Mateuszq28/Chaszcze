@@ -25,9 +25,12 @@ namespace Chaszcze
             // Add code to translate number
             NowaGra.Click += (sender, e) =>
             {
+                
                 // Translate user's alphanumeric phone number to numeric
                 var intent = new Intent(this, typeof(MainMenu));
+
                 StartActivity(intent);
+                
             };
 
       

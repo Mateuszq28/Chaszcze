@@ -29,7 +29,9 @@
     <TimePicker
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/timePicker"/>
+        android:id="@+id/timePicker"
+    />
+        
     <Button
         android:text="Start"
         android:textSize="20dp"

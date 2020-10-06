@@ -28,7 +28,12 @@ namespace Chaszcze
 
 
             TimePicker timePicker = FindViewById<TimePicker>(Resource.Id.timePicker);
+            
 
+
+            var text = FindViewById<EditText>(Resource.Id.textInputEditText1);
+
+            
 
             timePicker.SetIs24HourView((Java.Lang.Boolean)true);
             Button Start = FindViewById<Button>(Resource.Id.button1);
@@ -36,9 +41,13 @@ namespace Chaszcze
             // Add code to translate number
             Start.Click += (sender, e) =>
             {
+                Zarzadzanie.nazwaPatrolu = text.Text;
+                Zarzadzanie.minutaStartowa = DateTime.Parse(timePicker.CurrentHour + ":" + timePicker.CurrentMinute);
+                Zarzadzanie.czasRozpoczecia = DateTime.Now;
                 // Translate user's alphanumeric phone number to numeric
                 var intent = new Intent(this, typeof(Akcje));
                 StartActivity(intent);
+                
             };
 
 
