@@ -20,13 +20,26 @@ namespace Chaszcze
         static public Button pk1, pk2, pk3, pk4, pk5, pk6, pk7, pk8, pk9, pk10, pk11, pk12;
         static Button zakoncz;
 
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutString("nazwaPatrolu", Zarzadzanie.nazwaPatrolu);
+            //Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Saving instance state");
+
+            // always call the base implementation!
+            base.OnSaveInstanceState(outState);
+        }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.akcje_);
             // Create your application here
 
-          
+            if (savedInstanceState != null)
+            {
+                Zarzadzanie.nazwaPatrolu = savedInstanceState.GetString("nazwaPatrolu");
+                //Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Recovered instance state");
+            }
 
             pk1 = FindViewById<Button>(Resource.Id.button1);
             pk2 = FindViewById<Button>(Resource.Id.button2);
@@ -267,13 +280,17 @@ namespace Chaszcze
 
                         podsumowanie.Text = infoZwrotne;
 
+
+                        zakoncz.Text = "Powrót do menu";
                     });
                     alert.SetButton2("ANULUJ", (c, ev) => { });
                     alert.Show();
                 }
                 else
                 {
-                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                    var intent = new Intent(this, typeof(MainActivity));
+                    StartActivity(intent);
+                    //Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
                 }
             };
 

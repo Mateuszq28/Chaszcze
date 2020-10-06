@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using System.IO;
+
 namespace Chaszcze
 {
     class Zarzadzanie
@@ -25,8 +27,8 @@ namespace Chaszcze
         static public TimeSpan calkowityCzas;
         static public bool czyGraTrwa;
 
-        static TimeSpan limitCzasu = TimeSpan.Parse("01:20");
-        static TimeSpan limitSpoznien = TimeSpan.Parse("02:30");
+        static TimeSpan limitCzasu = TimeSpan.Parse("01:00");
+        static TimeSpan limitSpoznien = TimeSpan.Parse("02:00");
 
         static public void dekonstruktor()
         {
@@ -44,6 +46,16 @@ namespace Chaszcze
             {
                 Akcje.zmienKolor(i.ToString(),"");
             }
+        }
+
+        static public void zapisz()
+        {
+            StreamWriter sw = new StreamWriter("zapis_chaszcze.txt");
+        }
+
+        static public void wczytaj()
+        {
+
         }
 
         static public void zakonczenie()

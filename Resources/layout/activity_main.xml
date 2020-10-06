@@ -1,4 +1,9 @@
 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,3 +33,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView1" />
 </LinearLayout>
+
+</ScrollView>

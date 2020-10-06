@@ -5,11 +5,15 @@ using Android.Runtime;
 using Android.Widget;
 using Android.Content;
 
+
+
 namespace Chaszcze
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,15 +29,18 @@ namespace Chaszcze
             // Add code to translate number
             NowaGra.Click += (sender, e) =>
             {
-                
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(MainMenu));
+                    // Translate user's alphanumeric phone number to numeric
 
-                StartActivity(intent);
-                
+                    var intent = new Intent(this, typeof(MainMenu));
+                    StartActivity(intent);
             };
 
-      
+            Wczytaj.Click += (sender, e) =>
+            {
+                var intent = new Intent(this, typeof(Akcje));
+                StartActivity(intent);
+            };
+
 
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
