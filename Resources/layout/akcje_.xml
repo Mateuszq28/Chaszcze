@@ -119,13 +119,13 @@
        
 
         
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="50.0dp"
-            android:inputType="textMultiLine"
-            android:id="@+id/podsumowanie"
-           
-        />
+        <TextView
+        android:text="Legenda:\nzielony - zebrany Punkt Kontrolny\nżółty - poprawiony Punkt Kontrolny (10)"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/podsumowanie" />
 
     </TableLayout>
     </LinearLayout>

@@ -44,105 +44,199 @@ namespace Chaszcze
             TextView textGodz = FindViewById<TextView>(Resource.Id.textView1);
 
             Zarzadzanie.dekonstruktor();
-            textGodz.Text += " " + Zarzadzanie.czasRozpoczecia.ToString("hh:mm") + " (" + Zarzadzanie.minutaStartowa.ToString("hh:mm") + ")";
+            textGodz.Text += " " + Zarzadzanie.czasRozpoczecia.ToString("HH:mm") + " (" + Zarzadzanie.minutaStartowa.ToString("HH:mm") + ")";
 
-            EditText podsumowanie = FindViewById<EditText>(Resource.Id.podsumowanie);
+            TextView podsumowanie = FindViewById<TextView>(Resource.Id.podsumowanie);
+
+            String zasady = "Legenda:\nzielony - zebrany Punkt Kontrolny\nżółty - poprawiony Punkt Kontrolny (10 punktów karnych za każdną poprawkę)";
+            zasady += "\n\nZasady:";
+            zasady += "\nprawidłowy Punkt Kontrolny - 0 punktów karnych";
+            zasady += "\nPunkt Stowarzyszony - 25 punktów karnych";
+            zasady += "\nbrak Punktu Kontrolnego - 90 punktów karnych";
+            zasady += "\nPunkt Mylny lub o innym numerze - 90+60 punktów karnych";
+            zasady += "\n\nMaciej Groth - tel. kontaktowy: 509-614-377";
+
+            podsumowanie.Text = zasady;
 
             pk1.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "1";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                    // Translate user's alphanumeric phone number to numeric
+                    var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "1";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk2.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr= "2";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr= "2";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk3.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "3";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "3";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk4.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "4";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "4";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk5.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "5";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "5";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk6.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "6";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "6";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk7.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "7";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "7";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk8.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "8";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "8";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk9.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "9";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "9";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk10.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "10";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "10";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk11.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "11";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "11";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
             pk12.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                var intent = new Intent(this, typeof(qrakcja));
-                string nr = "12";
-                intent.PutExtra("nrPunktu", nr);
-                StartActivity(intent);
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                        // Translate user's alphanumeric phone number to numeric
+                        var intent = new Intent(this, typeof(qrakcja));
+                    string nr = "12";
+                    intent.PutExtra("nrPunktu", nr);
+                    StartActivity(intent);
+                }
+                else
+                {
+                    Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+                }
             };
 
             
@@ -158,7 +252,20 @@ namespace Chaszcze
                     alert.SetButton("TAK", (c, ev) =>
                     {
                         Zarzadzanie.zakonczenie();
-                        podsumowanie.Text = "asdasd";
+                        String infoZwrotne = "Nazwa patrolu: " + Zarzadzanie.nazwaPatrolu;
+                        infoZwrotne += "\nPunkty karne: " + Zarzadzanie.karne;
+                        infoZwrotne += "\nCzas rozpoczęcia: " + Zarzadzanie.czasRozpoczecia.ToString("dd.MM.yyyy HH:mm");
+                        infoZwrotne += "\nMinuta startowa: " + Zarzadzanie.minutaStartowa.ToString("HH:mm");
+                        infoZwrotne += "\nCzas zakończenia: " + Zarzadzanie.czasZakonczenia.ToString("dd.MM.yyyy HH:mm");
+                        infoZwrotne += "\nMinuta zakończenia: " + Zarzadzanie.minutaZakonczenia.ToString("HH:mm");
+                        infoZwrotne += "\nCałkowity czas przejścia: " + (DateTime.MinValue + Zarzadzanie.calkowityCzas).ToString("HH:mm");
+                        infoZwrotne += "\n\nLegenda:";
+                        infoZwrotne += "\nzielony - prawidłowy Punkt Kontrolny (0)";
+                        infoZwrotne += "\npomarańczowy - Punkt Stowarzyszony (25)";
+                        infoZwrotne += "\nczarny - brak Punktu Kontrolnego (90)";
+                        infoZwrotne += "\nczerwony - Punkt Mylny lub o innym numerze (90+60)";
+
+                        podsumowanie.Text = infoZwrotne;
 
                     });
                     alert.SetButton2("ANULUJ", (c, ev) => { });

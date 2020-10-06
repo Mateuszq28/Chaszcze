@@ -31,7 +31,7 @@ namespace Chaszcze
         static public void dekonstruktor()
         {
             kodyLampionow.Clear();
-            nazwaPatrolu = null;
+            //nazwaPatrolu = null;
             //minutaStartowa = DateTime.MinValue;
             //czasRozpoczecia = DateTime.MinValue;
             czasZakonczenia = DateTime.MinValue;
