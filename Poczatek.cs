@@ -29,8 +29,8 @@ namespace Chaszcze
             //Przypisz przyciskom funkcje
             NowaGra.Click += (sender, e) =>
             {
-                    var intent = new Intent(this, typeof(NazwaIczas));
-                    StartActivity(intent);
+                var intent = new Intent(this, typeof(NazwaIczas));
+                StartActivity(intent);
             };
 
             Wczytaj.Click += (sender, e) =>
@@ -39,7 +39,7 @@ namespace Chaszcze
                 StartActivity(intent);
             };
 
-            Akcje.ReadGameAsync();
+            Zarzadzanie.ReadGame();
             if (Zarzadzanie.czyGraTrwa)
             {
                 var intent = new Intent(this, typeof(Akcje));

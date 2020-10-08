@@ -17,24 +17,26 @@ namespace Chaszcze
     class Zarzadzanie
     {
         //Zmienne podawane na początku gry
-        static public String nazwaPatrolu;
+        static public string nazwaPatrolu;
         static public DateTime minutaStartowa;
         static public DateTime czasRozpoczecia;
 
         //Ważne podczas gry
-        static public List<String> kodyLampionow = new List<String>();
+        static public List<string> kodyLampionow = new List<string>();
         static public bool czyGraTrwa = false;
 
         //Liczone dopiero na koniec gry
-        static public DateTime czasZakonczenia;
         static public DateTime minutaZakonczenia;
+        static public DateTime czasZakonczenia;
         static public TimeSpan calkowityCzas;
         static public int karne;
 
 
         //Stałe wartości
+        //Nazwa pliku do zapisywania savów z gry
+        static string nazwaPliku = "zapis_chaszcze.txt";
         private static TimeSpan limitCzasu = TimeSpan.Parse("02:00");
-        private static TimeSpan limitSpoznien = TimeSpan.Parse("00:45");
+        private static TimeSpan limitSpoznien = TimeSpan.Parse("02:45");
         //Wszystkie kody do lampionów
         //Pierwsza kolumna to wlasciwy punkt, pozostale to stowarzysze
         private static string[,] wzorcowka = new string[12, 10] {  { "1-VN", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI" },
@@ -71,12 +73,118 @@ namespace Chaszcze
         }
 
 
+        //Zapisywanie gry do pliku
+        //WERSJA TEKSTOWA
+        static public string SaveGeme()
+        {
+            string zawartocPliku = nazwaPatrolu;
+            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
+            
+            if (czyGraTrwa)
+            {
+                zawartocPliku += "\n1";
+            }
+            else
+            {
+                zawartocPliku += "\n0";
+            }
+            zawartocPliku += "\n" + minutaStartowa.ToString("MM.dd.yyyy HH:mm");
+            zawartocPliku += "\n" + czasRozpoczecia.ToString("MM.dd.yyyy HH:mm");
+            zawartocPliku += "\n" + minutaZakonczenia.ToString("MM.dd.yyyy HH:mm");
+            zawartocPliku += "\n" + czasZakonczenia.ToString("MM.dd.yyyy HH:mm");
+            zawartocPliku += "\n" + karne;
+            zawartocPliku += "\n" + calkowityCzas.ToString();
+
+            foreach (string kod in kodyLampionow)
+            {
+                zawartocPliku += "\n" + kod;
+            }
+
+            using (var writer = File.CreateText(backingFile))
+            {
+                writer.Write(zawartocPliku);
+            }
+
+            return zawartocPliku;
+        }
+
+
+        //Funkcja wczytuje grę z pliku tekstowego o nazwie 'nazwaPliku'
+        //WERSJA TEKSTOWA
+        public static string ReadGame()
+        {
+            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
+            string zawartoscPliku = "";
+
+            if (backingFile == null || !File.Exists(backingFile))
+            {
+                return null;
+            }
+
+            using (var reader = new StreamReader(backingFile, true))
+            {
+                string line;
+                if ((line = reader.ReadLine()) != null)
+                {
+                    nazwaPatrolu = line;
+                    zawartoscPliku = line;
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    if (line == "1") czyGraTrwa = true;
+                    else czyGraTrwa = false;
+
+                    zawartoscPliku += "\n" + line;
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    minutaStartowa = DateTime.Parse(line);
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    czasRozpoczecia = DateTime.Parse(line);
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    minutaZakonczenia = DateTime.Parse(line);
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    czasZakonczenia = DateTime.Parse(line);
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    karne = Int32.Parse(line);
+                }
+                if ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    calkowityCzas = TimeSpan.Parse(line);
+                }
+
+                kodyLampionow.Clear();
+                while ((line = reader.ReadLine()) != null)
+                {
+                    zawartoscPliku += "\n" + line;
+                    kodyLampionow.Add(line);
+                }
+            }
+
+            return zawartoscPliku;
+        }
+
+
         //Ustaw kolory zgodnie z listą
         public static void ustawKolory()
         {
             //ile znaleziono odpowiedzi do danego punktu
             int znaleziono;
-            
+
 
             if (czyGraTrwa)
             {
@@ -179,7 +287,7 @@ namespace Chaszcze
             //Sprawdzanie poprawności kodów lampionów
             for (int i = 0; i < 12; i++)
             {
-                znaleziono = kodyLampionow.Count(x => x.StartsWith(i+1 + "-"));
+                znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
 
                 if (znaleziono == 0)
                 {
@@ -191,9 +299,9 @@ namespace Chaszcze
                 {
                     //Punkty karne za naniesione poprawki
                     karne += (znaleziono - 1) * 10;
-                    kod = kodyLampionow.Find(x => x.StartsWith(i+1 + "-"));
+                    kod = kodyLampionow.Find(x => x.StartsWith(i + 1 + "-"));
 
-                    if (kod == wzorcowka[i,0])
+                    if (kod == wzorcowka[i, 0])
                     {
                         //Prawidłowy lampion
                         Akcje.zmienKolor((i + 1).ToString(), "green");
@@ -202,7 +310,7 @@ namespace Chaszcze
                     {
                         for (int j = 1; j < 10; j++)
                         {
-                            if (kod == wzorcowka[i,j])
+                            if (kod == wzorcowka[i, j])
                             {
                                 //Stowarzyszony
                                 karne += 25;
@@ -221,7 +329,55 @@ namespace Chaszcze
                 }
             }
             //Zapisz grę
-            Akcje.SaveGemeAsync();
+            SaveGeme();
         }
+
+
+
+
+
+        //Zapisywanie gry do pliku
+        //WERSJA BINARNA
+        /*
+        static public void SaveGemeAsync()
+        {
+            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
+            using (BinaryWriter writer = new BinaryWriter(File.Open(backingFile, FileMode.Create)))
+            {
+                writer.Write(Zarzadzanie.nazwaPatrolu);
+                writer.Write(Zarzadzanie.czyGraTrwa);
+                writer.Write(Zarzadzanie.minutaStartowa.ToBinary());
+                writer.Write(Zarzadzanie.czasRozpoczecia.ToBinary());
+            }
+        }
+        */
+
+
+        //Funkcja wczytuje grę z pliku tekstowego o nazwie 'nazwaPliku'
+        //WERSJA BINARNA
+        /*
+        public static bool ReadGameAsync()
+        {
+            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
+
+            if (backingFile == null || !File.Exists(backingFile))
+            {
+                return false;
+            }
+
+            using (BinaryReader reader = new BinaryReader(File.Open(backingFile, FileMode.Open)))
+            {
+                string line;
+                if ((line = reader.ReadString()) != null)
+                {
+                    Zarzadzanie.nazwaPatrolu = line;
+                    Zarzadzanie.czyGraTrwa = reader.ReadBoolean();
+                    Zarzadzanie.minutaStartowa = DateTime.FromBinary(reader.ReadInt64());
+                    Zarzadzanie.czasRozpoczecia = DateTime.FromBinary(reader.ReadInt64());
+                }
+            }
+
+            return true;
+        }*/
     }
 }

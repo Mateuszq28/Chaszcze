@@ -23,35 +23,14 @@ namespace Chaszcze
         static public Button pk1, pk2, pk3, pk4, pk5, pk6, pk7, pk8, pk9, pk10, pk11, pk12;
         //Przycisk kończący grę, a później pozawalający wrócić do menu [id = button13]
         static Button zakoncz;
-        //Nazwa pliku do zapisywania savów z gry
-        static string nazwaPliku = "zapis_chaszcze.txt";
-
-
-        //Zapisywanie gry do pliku
-        static public async Task SaveGemeAsync()
-        {
-            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
-            using (var writer = File.CreateText(backingFile))
-            {
-                await writer.WriteLineAsync(Zarzadzanie.nazwaPatrolu);
-                if (Zarzadzanie.czyGraTrwa)
-                {
-                    await writer.WriteLineAsync("1");
-                }
-                else
-                {
-                    await writer.WriteLineAsync("0");
-                }
-            }
-        }
-
+       
 
         //Funkcja wywołująca zapisywanie w kluczowych momentach (np przed zabiciem obiektu klasy Akcje)
         protected override void OnSaveInstanceState(Bundle outState)
         {
-            SaveGemeAsync();
+            Zarzadzanie.SaveGeme();
 
-            //Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki (zabicie procesu w Androidzie)
+            //Ponieżej zapisywanie do zmiennych w programie, ale nie działa to po zamknięciu apki (zabicie procesu w Androidzie)
             //
             //outState.PutString("nazwaPatrolu", Zarzadzanie.nazwaPatrolu);
             //outState.PutBoolean("czyGraTrwa", Zarzadzanie.czyGraTrwa);
@@ -70,38 +49,6 @@ namespace Chaszcze
             Zarzadzanie.czyGraTrwa = savedInstanceState.GetBoolean("czyGraTrwa");
             Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Recovered instance state");
         }*/
-
-
-        //Funkcja wczytuje grę z pliku tekstowego o nazwie 'nazwaPliku'
-        public static bool ReadGameAsync()
-        {
-            var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
-
-            if (backingFile == null || !File.Exists(backingFile))
-            {
-                return false;
-            }
-
-            using (var reader = new StreamReader(backingFile, true))
-            {
-                string line;
-                if ((line = reader.ReadLine()) != null)
-                {
-                    Zarzadzanie.nazwaPatrolu = line;
-                }
-                if ((line = reader.ReadLine()) != null)
-                {
-                    if (line == "1") Zarzadzanie.czyGraTrwa = true;
-                    else Zarzadzanie.czyGraTrwa = false;
-                }
-                while ((line = reader.ReadLine()) != null)
-                {
-                    
-                }
-            }
-
-            return true;
-        }
 
 
         //Działanie przycisków wywołujących kod QR
@@ -148,7 +95,7 @@ namespace Chaszcze
 
 
             //Wczytaj dane
-            ReadGameAsync();
+            Zarzadzanie.ReadGame();
            
             //Przypisz elementy interfejsu do zmiennych roboczych
             pk1 = FindViewById<Button>(Resource.Id.button1);

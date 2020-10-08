@@ -45,7 +45,7 @@ namespace Chaszcze
                     Zarzadzanie.czasRozpoczecia = DateTime.Now;
                     Zarzadzanie.czyGraTrwa = true;
                     //Zapisz grę
-                    Akcje.SaveGemeAsync();
+                    Zarzadzanie.SaveGeme();
                     
                     var intent = new Intent(this, typeof(Akcje));
                     StartActivity(intent);
