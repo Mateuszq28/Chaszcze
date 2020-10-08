@@ -39,7 +39,15 @@ namespace Chaszcze
                 StartActivity(intent);
             };
 
+            Akcje.ReadGameAsync();
+            if (Zarzadzanie.czyGraTrwa)
+            {
+                var intent = new Intent(this, typeof(Akcje));
+                StartActivity(intent);
+            }
         }
+
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

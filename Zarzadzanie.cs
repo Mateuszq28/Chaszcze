@@ -76,21 +76,72 @@ namespace Chaszcze
         {
             //ile znaleziono odpowiedzi do danego punktu
             int znaleziono;
+            
 
-            for (int i = 1; i <= 12; i++)
+            if (czyGraTrwa)
             {
-                znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
-                if (znaleziono == 0)
+                for (int i = 1; i <= 12; i++)
                 {
-                    Akcje.zmienKolor((i + 1).ToString(), "light_gray");
+                    znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
+                    if (znaleziono == 0)
+                    {
+                        Akcje.zmienKolor((i + 1).ToString(), "light_gray");
+                    }
+                    else if (znaleziono == 1)
+                    {
+                        Akcje.zmienKolor((i + 1).ToString(), "green");
+                    }
+                    else
+                    {
+                        Akcje.zmienKolor((i + 1).ToString(), "yellow");
+                    }
                 }
-                else if (znaleziono == 1)
+            }
+            else
+            {
+                //ostatnia odpowiedź na karcie odpowiedzi dla danego punktu
+                string kod;
+                //odwracamy listę, bo brana jest pod uwagę ostatnia odpowiedź
+                kodyLampionow.Reverse();
+
+                //Sprawdzanie poprawności kodów lampionów
+                for (int i = 0; i < 12; i++)
                 {
-                    Akcje.zmienKolor((i + 1).ToString(), "green");
-                }
-                else
-                {
-                    Akcje.zmienKolor((i + 1).ToString(), "orange");
+                    znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
+
+                    if (znaleziono == 0)
+                    {
+                        //Nie odnotowano żadnego kodu
+                        Akcje.zmienKolor((i + 1).ToString(), "black");
+                    }
+                    else
+                    {
+                        kod = kodyLampionow.Find(x => x.StartsWith(i + 1 + "-"));
+
+                        if (kod == wzorcowka[i, 0])
+                        {
+                            //Prawidłowy lampion
+                            Akcje.zmienKolor((i + 1).ToString(), "green");
+                        }
+                        else
+                        {
+                            for (int j = 1; j < 10; j++)
+                            {
+                                if (kod == wzorcowka[i, j])
+                                {
+                                    //Stowarzyszony
+                                    Akcje.zmienKolor((i + 1).ToString(), "orange");
+                                    break;
+                                }
+                                else if (j == 9)
+                                {
+                                    //Mylny
+                                    Akcje.zmienKolor((i + 1).ToString(), "red");
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -170,7 +221,7 @@ namespace Chaszcze
                 }
             }
             //Zapisz grę
-            Akcje.SaveCountAsync();
+            Akcje.SaveGemeAsync();
         }
     }
 }
