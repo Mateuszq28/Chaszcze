@@ -18,15 +18,13 @@ using Com.Karumi.Dexter.Listener.Single;
 using Com.Karumi.Dexter.Listener;
 
 
-
 namespace Chaszcze
 {
-    [Activity(Label = "qrakcja")]
-    public class qrakcja : AppCompatActivity,IPermissionListener
+    [Activity(Label = "QR akcja")]
+    public class QRakcja : AppCompatActivity,IPermissionListener
     {
         private ZXingScannerView scannerView;
-        private TextView txtResult;
-        public String nrPunktu;
+        private string nrPunktu;
        
 
         public void OnPermissionDenied(PermissionDeniedResponse p0)
@@ -49,7 +47,8 @@ namespace Chaszcze
         {
             nrPunktu = Intent.GetStringExtra("nrPunktu");
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.qrekran);
+            SetContentView(Resource.Layout.qrakcja_);
+
             // Create your application here
             scannerView = FindViewById<ZXingScannerView>(Resource.Id.zxcan);
 
@@ -61,10 +60,10 @@ namespace Chaszcze
 
         private class ScanResultHandler : IResultHandler
         {
-            private qrakcja qrakcja;
-            private String nrPunktu;
+            private QRakcja qrakcja;
+            private string nrPunktu;
 
-            public ScanResultHandler(qrakcja qrakcja, String nrPunktu)
+            public ScanResultHandler(QRakcja qrakcja, string nrPunktu)
             {
                 this.qrakcja = qrakcja;
                 this.nrPunktu = nrPunktu;
@@ -72,15 +71,18 @@ namespace Chaszcze
 
             public void HandleResult(ZXing.Result rawResult)
             {
-
+                //Wywal komunikacik co zeskanowało
                 Toast.MakeText(qrakcja, "PK " + qrakcja.nrPunktu + " " + rawResult.ToString(), ToastLength.Long).Show();
 
                 String dodany = qrakcja.nrPunktu + "-" + rawResult.ToString();
                 //Toast.MakeText(qrakcja, dodany, ToastLength.Long).Show();
+
+                //Zmień kolor przycisku
                 if (Zarzadzanie.kodyLampionow.Find(x => x.StartsWith(nrPunktu+"-")) == null)
                 Akcje.zmienKolor(nrPunktu, "green");
                 else Akcje.zmienKolor(nrPunktu, "yellow");
 
+                //Dodaj kod do bazy i zapisz grę
                 Zarzadzanie.kodyLampionow.Add(dodany);
                 Akcje.SaveCountAsync();
             }

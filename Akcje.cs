@@ -19,11 +19,15 @@ namespace Chaszcze
     [Activity(Label = "Akcje")]
     public class Akcje : Activity
     {
+        //Przyciski odpowiadające polom na kody z lampionów 1-12
         static public Button pk1, pk2, pk3, pk4, pk5, pk6, pk7, pk8, pk9, pk10, pk11, pk12;
+        //Przycisk kończący grę, a później pozawalający wrócić do menu [id = button13]
         static Button zakoncz;
+        //Nazwa pliku do zapisywania savów z gry
         static string nazwaPliku = "zapis_chaszcze.txt";
 
 
+        //Zapisywanie gry do pliku
         static public async Task SaveCountAsync()
         {
             var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
@@ -42,34 +46,40 @@ namespace Chaszcze
         }
 
 
-
+        //Funkcja wywołująca zapisywanie w kluczowych momentach (np przed zabiciem obiektu klasy Akcje)
         protected override void OnSaveInstanceState(Bundle outState)
         {
             SaveCountAsync();
-            //Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki
 
+            //Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki (zabicie procesu w Androidzie)
+            //
             //outState.PutString("nazwaPatrolu", Zarzadzanie.nazwaPatrolu);
             //outState.PutBoolean("czyGraTrwa", Zarzadzanie.czyGraTrwa);
-
             //Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Saving instance state");
 
             // always call the base implementation!
             base.OnSaveInstanceState(outState);
         }
 
+        /*Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki
+        //Fragment zostawiono w celach edukacyjncyh, powinien znajdować się w funkcji OnCreate
+        //
+        if (savedInstanceState != null)
+        {
+            Zarzadzanie.nazwaPatrolu = savedInstanceState.GetString("nazwaPatrolu");
+            Zarzadzanie.czyGraTrwa = savedInstanceState.GetBoolean("czyGraTrwa");
+            Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Recovered instance state");
+        }*/
 
 
-
-
-
-
-        public string ReadCountAsync()
+        //Funkcja wczytuje grę z pliku tekstowego o nazwie 'nazwaPliku'
+        public bool ReadCountAsync()
         {
             var backingFile = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), nazwaPliku);
 
             if (backingFile == null || !File.Exists(backingFile))
             {
-                return "NO FILE";
+                return false;
             }
 
             using (var reader = new StreamReader(backingFile, true))
@@ -90,55 +100,44 @@ namespace Chaszcze
                 }
             }
 
-            return "FILE EXIST";
+            return true;
         }
 
 
+        //Działanie przycisków wywołujących kod QR
+        private void wywolajQR(string nr)
+        {
+            if (Zarzadzanie.czyGraTrwa)
+            {
+                var intent = new Intent(this, typeof(QRakcja));
+                intent.PutExtra("nrPunktu", nr);
+                StartActivity(intent);
+            }
+            else
+            {
+                Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+            }
+        }
 
 
-
-
-
-
+        //Metoda wywołuje się w momencie tworzenia obiektu
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.akcje_);
-            // Create your application here
-
-            
-            if (Zarzadzanie.czyNowaGra == false)
-            {
-                //Ponieżej oczytywanie z zmiennych w programie, ale nie działa to po zamknięciu apki
-
-                //Zarzadzanie.nazwaPatrolu = savedInstanceState.GetString("nazwaPatrolu");
-                //Zarzadzanie.czyGraTrwa = savedInstanceState.GetBoolean("czyGraTrwa");
-
-                //Log.Debug(GetType().FullName, "Zarzadzanie/Akcje - Recovered instance state");
-
-                if (ReadCountAsync() == "FILE EXIST")
-                {
 
 
-                    if (Zarzadzanie.czyGraTrwa == false)
-                    {
-                        Toast.MakeText(this, "Brak aktywnej gry", ToastLength.Long).Show();
-                        var intent = new Intent(this, typeof(MainActivity));
-                        StartActivity(intent);
-                    }
-                }
-            }
-            else if (Zarzadzanie.czyGraTrwa == false)
+            //Wczytaj dane i sprawdz czy gra zostala juz rozpoczeta
+            ReadCountAsync();
+            if (Zarzadzanie.czyGraTrwa == false)
             {
                 Toast.MakeText(this, "Brak aktywnej gry", ToastLength.Long).Show();
-                var intent = new Intent(this, typeof(MainActivity));
+                var intent = new Intent(this, typeof(Poczatek));
                 StartActivity(intent);
             }
-            
-            if (Zarzadzanie.czyGraTrwa != false || Zarzadzanie.czyNowaGra == true)
+            else
             {
-                SaveCountAsync();
-
+                //Przypisz elementy interfejsu do zmiennych roboczych
                 pk1 = FindViewById<Button>(Resource.Id.button1);
                 pk2 = FindViewById<Button>(Resource.Id.button2);
                 pk3 = FindViewById<Button>(Resource.Id.button3);
@@ -153,216 +152,99 @@ namespace Chaszcze
                 pk12 = FindViewById<Button>(Resource.Id.button12);
                 zakoncz = FindViewById<Button>(Resource.Id.button13);
                 TextView textGodz = FindViewById<TextView>(Resource.Id.textView1);
-
-                Zarzadzanie.dekonstruktor();
-                textGodz.Text += " " + Zarzadzanie.czasRozpoczecia.ToString("HH:mm") + " (" + Zarzadzanie.minutaStartowa.ToString("HH:mm") + ")";
-
                 TextView podsumowanie = FindViewById<TextView>(Resource.Id.podsumowanie);
 
-                String zasady = "Legenda:\nzielony - zebrany Punkt Kontrolny\nżółty - poprawiony Punkt Kontrolny (10 punktów karnych za każdną poprawkę)";
+                //Ustaw nagłówek karty patrolu
+                textGodz.Text = Zarzadzanie.nazwaPatrolu + "\nGodzina startu: " + Zarzadzanie.czasRozpoczecia.ToString("HH:mm") + " (" + Zarzadzanie.minutaStartowa.ToString("HH:mm") + ")";
+                //Ustaw Legendę na dole ekranu
+                string zasady = "Legenda:\nzielony - zebrany Punkt Kontrolny\nżółty - poprawiony Punkt Kontrolny (10 punktów karnych za każdną poprawkę)";
                 zasady += "\n\nZasady:";
                 zasady += "\nprawidłowy Punkt Kontrolny - 0 punktów karnych";
                 zasady += "\nPunkt Stowarzyszony - 25 punktów karnych";
                 zasady += "\nbrak Punktu Kontrolnego - 90 punktów karnych";
                 zasady += "\nPunkt Mylny lub o innym numerze - 90+60 punktów karnych";
                 zasady += "\n\nMaciej Groth - tel. kontaktowy: 509-614-377";
-
                 podsumowanie.Text = zasady;
+                
 
+                //Dodanie funkcji do przycisków do skanerów kodów QR
                 pk1.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "1";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "1";
+                    wywolajQR(nr);
                 };
                 pk2.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "2";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "2";
+                    wywolajQR(nr);
                 };
                 pk3.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "3";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "3";
+                    wywolajQR(nr);
                 };
                 pk4.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "4";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "4";
+                    wywolajQR(nr);
                 };
                 pk5.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "5";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "5";
+                    wywolajQR(nr);
                 };
                 pk6.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "6";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "6";
+                    wywolajQR(nr);
                 };
                 pk7.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "7";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "7";
+                    wywolajQR(nr);
                 };
                 pk8.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "8";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "8";
+                    wywolajQR(nr);
                 };
                 pk9.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "9";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "9";
+                    wywolajQR(nr);
                 };
                 pk10.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "10";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "10";
+                    wywolajQR(nr);
                 };
                 pk11.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "11";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "11";
+                    wywolajQR(nr);
                 };
                 pk12.Click += (sender, e) =>
                 {
-                    if (Zarzadzanie.czyGraTrwa)
-                    {
-                        // Translate user's alphanumeric phone number to numeric
-                        var intent = new Intent(this, typeof(qrakcja));
-                        string nr = "12";
-                        intent.PutExtra("nrPunktu", nr);
-                        StartActivity(intent);
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
-                    }
+                    string nr = "12";
+                    wywolajQR(nr);
                 };
 
 
-
+                //Dodanie funkcji do przycisku Zakoncz gre/Powrot do menu
                 zakoncz.Click += (sender, e) =>
                 {
                     if (Zarzadzanie.czyGraTrwa)
                     {
+                        //Okno dialogowe potwierdzające zakończenie gry
                         Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                         AlertDialog alert = dialog.Create();
                         alert.SetTitle("Uwaga!");
                         alert.SetMessage("Czy na pewno chcesz zakończyć grę?");
                         alert.SetButton("TAK", (c, ev) =>
                         {
+                            //Policz i ustaw falgi
                             Zarzadzanie.zakonczenie();
+                            //Wyswietl info zwrotne
                             String infoZwrotne = "Nazwa patrolu: " + Zarzadzanie.nazwaPatrolu;
                             infoZwrotne += "\nPunkty karne: " + Zarzadzanie.karne;
                             infoZwrotne += "\nCzas rozpoczęcia: " + Zarzadzanie.czasRozpoczecia.ToString("dd.MM.yyyy HH:mm");
@@ -375,10 +257,8 @@ namespace Chaszcze
                             infoZwrotne += "\npomarańczowy - Punkt Stowarzyszony (25)";
                             infoZwrotne += "\nczarny - brak Punktu Kontrolnego (90)";
                             infoZwrotne += "\nczerwony - Punkt Mylny lub o innym numerze (90+60)";
-
                             podsumowanie.Text = infoZwrotne;
-
-
+                            //Zmien funkcjonalnosc przycisku
                             zakoncz.Text = "Powrót do menu";
                         });
                         alert.SetButton2("ANULUJ", (c, ev) => { });
@@ -386,16 +266,21 @@ namespace Chaszcze
                     }
                     else
                     {
-                        var intent = new Intent(this, typeof(MainActivity));
+                        var intent = new Intent(this, typeof(Poczatek));
                         StartActivity(intent);
-                        //Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
                     }
                 };
 
+
+                //Pokoloruj kartę odpowiedzi
+                Zarzadzanie.ustawKolory();
             }
         }
 
-        static public void zmienKolor(String nr, string option)
+
+        //Zmienia kolor przycisku o numerze nr (1-12) w tablicy odpwowiedzi
+        //option to nazwa koloru w języku angielskim
+        static public void zmienKolor(string nr, string option)
         {
             Button pk;
             switch (nr)
@@ -436,7 +321,6 @@ namespace Chaszcze
                 case "12":
                     pk = pk12;
                     break;
-
                 default:
                     pk = pk1;
                     break;
@@ -463,14 +347,13 @@ namespace Chaszcze
                 case "white":
                     pk.SetBackgroundColor(Color.White);
                     break;
+                case "light_gray":
+                    pk.SetBackgroundColor(Color.LightGray);
+                    break;
                 default:
                     pk.SetBackgroundColor(Color.LightGray);
                     break;
             }
-            
         }
-        
-
-
     }
 }

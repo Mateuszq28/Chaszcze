@@ -6,42 +6,38 @@ using Android.Widget;
 using Android.Content;
 
 
-
 namespace Chaszcze
 {
+    //[Activity(Label = "Chaszcze", Theme = "@style/AppTheme", MainLauncher = true)]
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : AppCompatActivity
+    public class Poczatek : AppCompatActivity
     {
         
-
+        //Metoda wywoływana podczas tworzenia obiektu
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.activity_main);
+            SetContentView(Resource.Layout.poczatek_);
 
+            //Przypisz elementy interfejsu do zmiennych
             Button NowaGra = FindViewById<Button>(Resource.Id.button1);
             Button Wczytaj = FindViewById<Button>(Resource.Id.button2);
 
 
-
-            // Add code to translate number
+            //Przypisz przyciskom funkcje
             NowaGra.Click += (sender, e) =>
             {
-                // Translate user's alphanumeric phone number to numeric
-                Zarzadzanie.czyNowaGra = true;
-                    var intent = new Intent(this, typeof(MainMenu));
+                    var intent = new Intent(this, typeof(NazwaIczas));
                     StartActivity(intent);
             };
 
             Wczytaj.Click += (sender, e) =>
             {
-                Zarzadzanie.czyNowaGra = false;
                 var intent = new Intent(this, typeof(Akcje));
                 StartActivity(intent);
             };
-
 
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
