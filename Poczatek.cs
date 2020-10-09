@@ -31,12 +31,14 @@ namespace Chaszcze
             {
                 var intent = new Intent(this, typeof(NazwaIczas));
                 StartActivity(intent);
+                this.Finish();
             };
 
             Wczytaj.Click += (sender, e) =>
             {
                 var intent = new Intent(this, typeof(Akcje));
                 StartActivity(intent);
+                this.Finish();
             };
 
             Zarzadzanie.ReadGame();
@@ -44,6 +46,7 @@ namespace Chaszcze
             {
                 var intent = new Intent(this, typeof(Akcje));
                 StartActivity(intent);
+                this.Finish();
             }
         }
 

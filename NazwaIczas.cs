@@ -49,6 +49,7 @@ namespace Chaszcze
                     
                     var intent = new Intent(this, typeof(Akcje));
                     StartActivity(intent);
+                    this.Finish();
                 }
                 else
                 {

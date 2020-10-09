@@ -216,6 +216,7 @@ namespace Chaszcze
                 {
                     var intent = new Intent(this, typeof(Poczatek));
                     StartActivity(intent);
+                    this.Finish();
                 }
             };
 

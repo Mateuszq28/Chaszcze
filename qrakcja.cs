@@ -85,6 +85,7 @@ namespace Chaszcze
                 //Dodaj kod do bazy i zapisz grę
                 Zarzadzanie.kodyLampionow.Add(dodany);
                 Zarzadzanie.SaveGeme();
+                qrakcja.Finish();
             }
         }
     }
