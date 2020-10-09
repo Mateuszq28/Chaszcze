@@ -60,6 +60,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarCodeGenerator.cs" />
     <Compile Include="QRakcja.cs" />
     <Compile Include="Akcje.cs" />
     <Compile Include="Poczatek.cs" />
@@ -97,7 +98,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\keh_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dexter">

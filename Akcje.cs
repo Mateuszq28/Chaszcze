@@ -22,7 +22,7 @@ namespace Chaszcze
         //Przyciski odpowiadające polom na kody z lampionów 1-12
         static public Button pk1, pk2, pk3, pk4, pk5, pk6, pk7, pk8, pk9, pk10, pk11, pk12;
         //Przycisk kończący grę, a później pozawalający wrócić do menu [id = button13]
-        static Button zakoncz;
+        static private Button zakoncz;
        
 
         //Funkcja wywołująca zapisywanie w kluczowych momentach (np przed zabiciem obiektu klasy Akcje)
@@ -82,7 +82,7 @@ namespace Chaszcze
             infoZwrotne += "\nzielony - prawidłowy Punkt Kontrolny (0)";
             infoZwrotne += "\npomarańczowy - Punkt Stowarzyszony (25)";
             infoZwrotne += "\nczarny - brak Punktu Kontrolnego (90)";
-            infoZwrotne += "\nczerwony - Punkt Mylny lub o innym numerze (90+60)";
+            infoZwrotne += "\nczerwony - Punkt Mylny lub o innym numerze (90+60)\n";
             pole.Text = infoZwrotne;
         }
 
@@ -113,6 +113,7 @@ namespace Chaszcze
             zakoncz = FindViewById<Button>(Resource.Id.button13);
             TextView textGodz = FindViewById<TextView>(Resource.Id.textView1);
             TextView podsumowanie = FindViewById<TextView>(Resource.Id.podsumowanie);
+            ImageView obrazek = FindViewById<ImageView>(Resource.Id.imageView1);
 
             //Ustaw nagłówek karty patrolu
             textGodz.Text = Zarzadzanie.nazwaPatrolu + "\nGodzina startu: " + Zarzadzanie.czasRozpoczecia.ToString("HH:mm") + " (" + Zarzadzanie.minutaStartowa.ToString("HH:mm") + ")";
@@ -122,10 +123,11 @@ namespace Chaszcze
             zasady += "\nprawidłowy Punkt Kontrolny - 0 punktów karnych";
             zasady += "\nPunkt Stowarzyszony - 25 punktów karnych";
             zasady += "\nbrak Punktu Kontrolnego - 90 punktów karnych";
-            zasady += "\nPunkt Mylny lub o innym numerze - 90+60 punktów karnych";
-            zasady += "\n\nMaciej Groth - tel. kontaktowy: 509-614-377";
+            zasady += "\nPunkt Mylny lub o innym numerze - 90+60 punktów karnych\n";
             podsumowanie.Text = zasady;
-                
+            //Ustaw obrazek
+            obrazek.SetImageResource(Resource.Drawable.keh_logo);
+            obrazek.Visibility = Android.Views.ViewStates.Gone;
 
             //Dodanie funkcji do przycisków do skanerów kodów QR
             pk1.Click += (sender, e) =>
