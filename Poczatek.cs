@@ -78,7 +78,6 @@ namespace Chaszcze
                 }
                 else
                 {
-                    Zarzadzanie.ReadGame();
                     var intent = new Intent(this, typeof(Akcje));
                     StartActivity(intent);
                     this.Finish();
