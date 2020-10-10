@@ -251,6 +251,8 @@ namespace Chaszcze
                         }
                     }
                 }
+                //Odwracamy listę do normalnej kolejności
+                kodyLampionow.Reverse();
             }
         }
 
@@ -328,6 +330,8 @@ namespace Chaszcze
                     }
                 }
             }
+            //Odwracamy listę do normalnej kolejności
+            kodyLampionow.Reverse();
             //Zapisz grę
             return SaveGeme();
         }
