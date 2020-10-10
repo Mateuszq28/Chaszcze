@@ -4,7 +4,9 @@ using Android.Support.V7.App;
 using Android.Runtime;
 using Android.Widget;
 using Android.Content;
-
+using Android.Support.V4.Content;
+using Android.Content.PM;
+using Android.Support.V4.App;
 
 namespace Chaszcze
 {
@@ -21,6 +23,25 @@ namespace Chaszcze
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.poczatek_);
 
+
+
+
+            //Sprawdź pozwolenia
+            string[] PERMISSIONS =
+            {
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+            };
+
+            var permission = ContextCompat.CheckSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE");
+            var permissionread = ContextCompat.CheckSelfPermission(this, "android.permission.READ_EXTERNAL_STORAGE");
+
+            if (permission != Permission.Granted || permissionread != Permission.Granted)
+                ActivityCompat.RequestPermissions(this, PERMISSIONS, 1);
+
+
+
+
             //Przypisz elementy interfejsu do zmiennych
             Button NowaGra = FindViewById<Button>(Resource.Id.button1);
             Button Wczytaj = FindViewById<Button>(Resource.Id.button2);
@@ -29,24 +50,55 @@ namespace Chaszcze
             //Przypisz przyciskom funkcje
             NowaGra.Click += (sender, e) =>
             {
-                var intent = new Intent(this, typeof(NazwaIczas));
-                StartActivity(intent);
-                this.Finish();
+                if (permission != Permission.Granted || permissionread != Permission.Granted)
+                {
+                    ActivityCompat.RequestPermissions(this, PERMISSIONS, 1);
+                    var intent = new Intent(this, typeof(Poczatek));
+                    Toast.MakeText(this, "Czy na pewno zaakceptowałeś zgody?", ToastLength.Long).Show();
+                    StartActivity(intent);
+                    this.Finish();
+                }
+                else
+                {
+                    var intent = new Intent(this, typeof(NazwaIczas));
+                    StartActivity(intent);
+                    this.Finish();
+                }
             };
 
             Wczytaj.Click += (sender, e) =>
             {
-                var intent = new Intent(this, typeof(Akcje));
-                StartActivity(intent);
-                this.Finish();
+                if (permission != Permission.Granted || permissionread != Permission.Granted)
+                {
+                    ActivityCompat.RequestPermissions(this, PERMISSIONS, 1);
+                    var intent = new Intent(this, typeof(Poczatek));
+                    Toast.MakeText(this, "Czy na pewno zaakceptowałeś zgody?", ToastLength.Long).Show();
+                    StartActivity(intent);
+                    this.Finish();
+                }
+                else
+                {
+                    Zarzadzanie.ReadGame();
+                    var intent = new Intent(this, typeof(Akcje));
+                    StartActivity(intent);
+                    this.Finish();
+                }
             };
 
-            Zarzadzanie.ReadGame();
-            if (Zarzadzanie.czyGraTrwa)
+
+            if (permission != Permission.Granted || permissionread != Permission.Granted)
             {
-                var intent = new Intent(this, typeof(Akcje));
-                StartActivity(intent);
-                this.Finish();
+                ActivityCompat.RequestPermissions(this, PERMISSIONS, 1);
+            }
+            else
+            {
+                Zarzadzanie.ReadGame();
+                if (Zarzadzanie.czyGraTrwa)
+                {
+                    var intent = new Intent(this, typeof(Akcje));
+                    StartActivity(intent);
+                    this.Finish();
+                }
             }
         }
 

@@ -60,7 +60,6 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BarCodeGenerator.cs" />
     <Compile Include="QRakcja.cs" />
     <Compile Include="Akcje.cs" />
     <Compile Include="Poczatek.cs" />

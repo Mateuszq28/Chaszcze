@@ -256,7 +256,7 @@ namespace Chaszcze
 
 
         //Kończy grę
-        static public void zakonczenie()
+        static public string zakonczenie()
         {
             //ile znaleziono odpowiedzi do danego punktu
             int znaleziono;
@@ -329,7 +329,7 @@ namespace Chaszcze
                 }
             }
             //Zapisz grę
-            SaveGeme();
+            return SaveGeme();
         }
 
 

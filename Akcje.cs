@@ -14,6 +14,15 @@ using Android.Graphics;
 using System.IO;
 using System.Threading.Tasks;
 
+//Dodano na potrzeby generowania zdjęcia z kodem QR
+using Android.Content.PM;
+using Android.Support.Design.Widget;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
+using Android.Support.V7.App;
+using ZXing;
+using ZXing.Common;
+
 namespace Chaszcze
 {
     [Activity(Label = "Akcje")]
@@ -63,6 +72,90 @@ namespace Chaszcze
             else
             {
                 Toast.MakeText(this, "Gra się już zakończyła!", ToastLength.Long).Show();
+            }
+        }
+
+
+        //Generuje obrazek z kodem QR
+        private void generujQR(string message, ImageView image)
+        {
+            string CodeType = "QR Code";
+            int size = 660;
+            int small_size = 264;
+
+            string[] PERMISSIONS =
+            {
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+            };
+
+            var permission = ContextCompat.CheckSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE");
+            var permissionread = ContextCompat.CheckSelfPermission(this, "android.permission.READ_EXTERNAL_STORAGE");
+
+            if (permission != Permission.Granted || permissionread != Permission.Granted)
+                ActivityCompat.RequestPermissions(this, PERMISSIONS, 1);
+
+            try
+            {
+                if (permission == Permission.Granted && permissionread == Permission.Granted)
+                {
+                    BitMatrix bitmapMatrix = null;
+
+                    switch (CodeType)
+                    {
+                        case "QR Code":
+                            bitmapMatrix = new MultiFormatWriter().encode(message, BarcodeFormat.QR_CODE, size, size);
+                            break;
+                        case "PDF 417":
+                            bitmapMatrix = new MultiFormatWriter().encode(message, BarcodeFormat.PDF_417, size, small_size);
+                            break;
+                        case "CODE 128":
+                            bitmapMatrix = new MultiFormatWriter().encode(message, BarcodeFormat.CODE_128, size, small_size);
+                            break;
+                        case "CODE 39":
+                            bitmapMatrix = new MultiFormatWriter().encode(message, BarcodeFormat.CODE_39, size, small_size);
+                            break;
+                        case "AZTEC":
+                            bitmapMatrix = new MultiFormatWriter().encode(message, BarcodeFormat.AZTEC, size, small_size);
+                            break;
+                    }
+
+                    var width = bitmapMatrix.Width;
+                    var height = bitmapMatrix.Height;
+                    int[] pixelsImage = new int[width * height];
+
+                    for (int i = 0; i < height; i++)
+                    {
+                        for (int j = 0; j < width; j++)
+                        {
+                            if (bitmapMatrix[j, i])
+                                pixelsImage[i * width + j] = (int)Convert.ToInt64(0xff000000);
+                            else
+                                pixelsImage[i * width + j] = (int)Convert.ToInt64(0xffffffff);
+
+                        }
+                    }
+
+                    Bitmap bitmap = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
+                    bitmap.SetPixels(pixelsImage, 0, width, 0, 0, width, height);
+
+                    var sdpath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+                    var path = System.IO.Path.Combine(sdpath, "logeshbarcode.jpg");
+                    var stream = new FileStream(path, FileMode.Create);
+                    bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
+                    stream.Close();
+
+                    image.SetImageBitmap(bitmap);
+                    image.Visibility = Android.Views.ViewStates.Visible;
+                }
+                else
+                {
+                    Console.WriteLine("No Permission");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception {ex} ");
             }
         }
 
@@ -198,18 +291,21 @@ namespace Chaszcze
                 if (Zarzadzanie.czyGraTrwa)
                 {
                     //Okno dialogowe potwierdzające zakończenie gry
-                    Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-                    AlertDialog alert = dialog.Create();
+                    Android.App.AlertDialog.Builder dialog = new Android.App.AlertDialog.Builder(this);
+                    Android.App.AlertDialog alert = dialog.Create();
                     alert.SetTitle("Uwaga!");
                     alert.SetMessage("Czy na pewno chcesz zakończyć grę?");
                     alert.SetButton("TAK", (c, ev) =>
                     {
+                        string zapisGry;
                         //Policz i ustaw falgi
-                        Zarzadzanie.zakonczenie();
+                        zapisGry = Zarzadzanie.zakonczenie();
                         //Wyswietl wyniki
                         wyswietlPodsumowanie(podsumowanie);
                         //Zmien funkcjonalnosc przycisku
                         zakoncz.Text = "Powrót do menu";
+                        //Generuj i ustaw obrazek z kodem QR
+                        generujQR(zapisGry, obrazek);
                     });
                     alert.SetButton2("ANULUJ", (c, ev) => { });
                     alert.Show();
@@ -231,6 +327,8 @@ namespace Chaszcze
                 wyswietlPodsumowanie(podsumowanie);
                 //Zmien funkcjonalnosc przycisku
                 zakoncz.Text = "Powrót do menu";
+                //Generuj i ustaw obrazek z kodem QR
+                generujQR(Zarzadzanie.ReadGame(), obrazek);
             }
         }
 

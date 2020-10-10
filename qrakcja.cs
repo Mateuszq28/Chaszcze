@@ -29,7 +29,7 @@ namespace Chaszcze
 
         public void OnPermissionDenied(PermissionDeniedResponse p0)
         {
-            throw new NotImplementedException();
+            this.Finish();
         }
 
         public void OnPermissionGranted(PermissionGrantedResponse p0)
