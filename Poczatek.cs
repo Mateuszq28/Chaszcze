@@ -30,16 +30,19 @@ namespace Chaszcze
             string[] PERMISSIONS =
             {
                 "android.permission.READ_EXTERNAL_STORAGE",
-                "android.permission.WRITE_EXTERNAL_STORAGE"
+                "android.permission.WRITE_EXTERNAL_STORAGE",
+                "android.permission.CAMERA"
             };
 
             var permission = ContextCompat.CheckSelfPermission(this, "android.permission.WRITE_EXTERNAL_STORAGE");
             var permissionread = ContextCompat.CheckSelfPermission(this, "android.permission.READ_EXTERNAL_STORAGE");
+            var permissioncamera = ContextCompat.CheckSelfPermission(this, "android.permission.CAMERA");
 
             if (permission != Permission.Granted || permissionread != Permission.Granted)
                 ActivityCompat.RequestPermissions(this, PERMISSIONS, 1);
 
-
+            if (permissioncamera != Permission.Granted)
+                ActivityCompat.RequestPermissions(this, PERMISSIONS, 2);
 
 
             //Przypisz elementy interfejsu do zmiennych
@@ -60,9 +63,20 @@ namespace Chaszcze
                 }
                 else
                 {
-                    var intent = new Intent(this, typeof(NazwaIczas));
-                    StartActivity(intent);
-                    this.Finish();
+                    if (permissioncamera != Permission.Granted)
+                    {
+                        ActivityCompat.RequestPermissions(this, PERMISSIONS, 2);
+                        var intent = new Intent(this, typeof(Poczatek));
+                        Toast.MakeText(this, "Czy na pewno zaakceptowałeś zgody?", ToastLength.Long).Show();
+                        StartActivity(intent);
+                        this.Finish();
+                    }
+                    else
+                    {
+                        var intent = new Intent(this, typeof(NazwaIczas));
+                        StartActivity(intent);
+                        this.Finish();
+                    }
                 }
             };
 
@@ -78,9 +92,20 @@ namespace Chaszcze
                 }
                 else
                 {
-                    var intent = new Intent(this, typeof(Akcje));
-                    StartActivity(intent);
-                    this.Finish();
+                    if (permissioncamera != Permission.Granted)
+                    {
+                        ActivityCompat.RequestPermissions(this, PERMISSIONS, 2);
+                        var intent = new Intent(this, typeof(Poczatek));
+                        Toast.MakeText(this, "Czy na pewno zaakceptowałeś zgody?", ToastLength.Long).Show();
+                        StartActivity(intent);
+                        this.Finish();
+                    }
+                    else
+                    {
+                        var intent = new Intent(this, typeof(Akcje));
+                        StartActivity(intent);
+                        this.Finish();
+                    }
                 }
             };
 
@@ -91,12 +116,19 @@ namespace Chaszcze
             }
             else
             {
-                Zarzadzanie.ReadGame();
-                if (Zarzadzanie.czyGraTrwa)
+                if (permissioncamera != Permission.Granted)
                 {
-                    var intent = new Intent(this, typeof(Akcje));
-                    StartActivity(intent);
-                    this.Finish();
+                    ActivityCompat.RequestPermissions(this, PERMISSIONS, 2);
+                }
+                else
+                {
+                    Zarzadzanie.ReadGame();
+                    if (Zarzadzanie.czyGraTrwa)
+                    {
+                        var intent = new Intent(this, typeof(Akcje));
+                        StartActivity(intent);
+                        this.Finish();
+                    }
                 }
             }
         }

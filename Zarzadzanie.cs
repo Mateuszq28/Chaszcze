@@ -95,10 +95,10 @@ namespace Chaszcze
             {
                 zawartocPliku += "\n0";
             }
-            zawartocPliku += "\n" + minutaStartowa.ToString("MM.dd.yyyy HH:mm");
-            zawartocPliku += "\n" + czasRozpoczecia.ToString("MM.dd.yyyy HH:mm");
-            zawartocPliku += "\n" + minutaZakonczenia.ToString("MM.dd.yyyy HH:mm");
-            zawartocPliku += "\n" + czasZakonczenia.ToString("MM.dd.yyyy HH:mm");
+            zawartocPliku += "\n" + minutaStartowa.ToString();
+            zawartocPliku += "\n" + czasRozpoczecia.ToString();
+            zawartocPliku += "\n" + minutaZakonczenia.ToString();
+            zawartocPliku += "\n" + czasZakonczenia.ToString();
             zawartocPliku += "\n" + karne;
             zawartocPliku += "\n" + calkowityCzas.ToString();
 
