@@ -30,6 +30,7 @@ namespace Chaszcze
     {
         //Przyciski odpowiadające polom na kody z lampionów 1-12
         static public Button[] pk = new Button[Zarzadzanie.liczbaPunktow];
+        static public Button empty;
         //Przycisk kończący grę, a później pozawalający wrócić do menu [id = buttonZakoncz]
         static private Button zakoncz;
        
@@ -207,6 +208,7 @@ namespace Chaszcze
             pk[13] = FindViewById<Button>(Resource.Id.button14);
             pk[14] = FindViewById<Button>(Resource.Id.button15);
             zakoncz = FindViewById<Button>(Resource.Id.buttonZakoncz);
+            empty = FindViewById<Button>(Resource.Id.buttonEmpty);
             TextView textGodz = FindViewById<TextView>(Resource.Id.textView1);
             TextView podsumowanie = FindViewById<TextView>(Resource.Id.podsumowanie);
             ImageView obrazek = FindViewById<ImageView>(Resource.Id.imageView1);
@@ -225,12 +227,15 @@ namespace Chaszcze
             obrazek.SetImageResource(Resource.Drawable.keh_logo);
             obrazek.Visibility = Android.Views.ViewStates.Gone;
 
+
             //Dodanie funkcji do przycisków do skanerów kodów QR
             for (int i = 0; i < Zarzadzanie.liczbaPunktow; i++)
             {
+                //string nr = (i + 1).ToString();
+
                 pk[i].Click += (sender, e) =>
                 {
-                    string nr = i.ToString();
+                    string nr = ((Button)sender).Text.Split(' ')[1];
                     wywolajQR(nr);
                 };
             }
@@ -271,6 +276,7 @@ namespace Chaszcze
 
 
             //Pokoloruj kartę odpowiedzi
+            empty.SetBackgroundColor(Color.White);
             Zarzadzanie.ustawKolory();
             if (Zarzadzanie.czyGraTrwa == false)
             {

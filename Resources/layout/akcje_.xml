@@ -63,6 +63,12 @@
                     android:id="@+id/button4"
                     android:layout_margin="2dp"
                 />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+            >
                 <Button
                     android:text="PK 5"
                     android:layout_width="wrap_content"
@@ -71,12 +77,6 @@
                     android:id="@+id/button5"
                     android:layout_margin="2dp"
                 />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-            >
                 <Button
                     android:text="PK 6"
                     android:layout_width="wrap_content"
@@ -101,6 +101,12 @@
                     android:id="@+id/button8"
                     android:layout_margin="2dp"
                 />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+            >
                 <Button
                     android:text="PK 9"
                     android:layout_width="wrap_content"
@@ -117,12 +123,6 @@
                     android:id="@+id/button10"
                     android:layout_margin="2dp"
                 />
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-            >
                 <Button
                     android:text="PK 11"
                     android:layout_width="wrap_content"
@@ -139,7 +139,13 @@
                     android:id="@+id/button12"
                     android:layout_margin="2dp"
                 />
-                <Button
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+            >
+                 <Button
                     android:text="PK 13"
                     android:layout_width="wrap_content"
                     android:layout_height="100.0dp"
@@ -161,6 +167,14 @@
                     android:layout_height="100.0dp"
                     android:textSize="20dp"
                     android:id="@+id/button15"
+                    android:layout_margin="2dp"
+                />
+                <Button
+                    android:text=" "
+                    android:layout_width="wrap_content"
+                    android:layout_height="100.0dp"
+                    android:textSize="20dp"
+                    android:id="@+id/buttonEmpty"
                     android:layout_margin="2dp"
                 />
             </TableRow>

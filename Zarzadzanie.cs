@@ -195,7 +195,7 @@ namespace Chaszcze
 
             if (czyGraTrwa)
             {
-                for (int i = 1; i <= liczbaPunktow; i++)
+                for (int i = 0; i < liczbaPunktow; i++)
                 {
                     znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
                     if (znaleziono == 0)
