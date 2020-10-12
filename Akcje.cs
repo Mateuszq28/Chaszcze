@@ -29,8 +29,8 @@ namespace Chaszcze
     public class Akcje : Activity
     {
         //Przyciski odpowiadające polom na kody z lampionów 1-12
-        static public Button pk1, pk2, pk3, pk4, pk5, pk6, pk7, pk8, pk9, pk10, pk11, pk12;
-        //Przycisk kończący grę, a później pozawalający wrócić do menu [id = button13]
+        static public Button[] pk = new Button[Zarzadzanie.liczbaPunktow];
+        //Przycisk kończący grę, a później pozawalający wrócić do menu [id = buttonZakoncz]
         static private Button zakoncz;
        
 
@@ -191,19 +191,22 @@ namespace Chaszcze
             Zarzadzanie.ReadGame();
            
             //Przypisz elementy interfejsu do zmiennych roboczych
-            pk1 = FindViewById<Button>(Resource.Id.button1);
-            pk2 = FindViewById<Button>(Resource.Id.button2);
-            pk3 = FindViewById<Button>(Resource.Id.button3);
-            pk4 = FindViewById<Button>(Resource.Id.button4);
-            pk5 = FindViewById<Button>(Resource.Id.button5);
-            pk6 = FindViewById<Button>(Resource.Id.button6);
-            pk7 = FindViewById<Button>(Resource.Id.button7);
-            pk8 = FindViewById<Button>(Resource.Id.button8);
-            pk9 = FindViewById<Button>(Resource.Id.button9);
-            pk10 = FindViewById<Button>(Resource.Id.button10);
-            pk11 = FindViewById<Button>(Resource.Id.button11);
-            pk12 = FindViewById<Button>(Resource.Id.button12);
-            zakoncz = FindViewById<Button>(Resource.Id.button13);
+            pk[0] = FindViewById<Button>(Resource.Id.button1);
+            pk[1] = FindViewById<Button>(Resource.Id.button2);
+            pk[2] = FindViewById<Button>(Resource.Id.button3);
+            pk[3] = FindViewById<Button>(Resource.Id.button4);
+            pk[4] = FindViewById<Button>(Resource.Id.button5);
+            pk[5] = FindViewById<Button>(Resource.Id.button6);
+            pk[6] = FindViewById<Button>(Resource.Id.button7);
+            pk[7] = FindViewById<Button>(Resource.Id.button8);
+            pk[8] = FindViewById<Button>(Resource.Id.button9);
+            pk[9] = FindViewById<Button>(Resource.Id.button10);
+            pk[10] = FindViewById<Button>(Resource.Id.button11);
+            pk[11] = FindViewById<Button>(Resource.Id.button12);
+            pk[12] = FindViewById<Button>(Resource.Id.button13);
+            pk[13] = FindViewById<Button>(Resource.Id.button14);
+            pk[14] = FindViewById<Button>(Resource.Id.button15);
+            zakoncz = FindViewById<Button>(Resource.Id.buttonZakoncz);
             TextView textGodz = FindViewById<TextView>(Resource.Id.textView1);
             TextView podsumowanie = FindViewById<TextView>(Resource.Id.podsumowanie);
             ImageView obrazek = FindViewById<ImageView>(Resource.Id.imageView1);
@@ -223,66 +226,14 @@ namespace Chaszcze
             obrazek.Visibility = Android.Views.ViewStates.Gone;
 
             //Dodanie funkcji do przycisków do skanerów kodów QR
-            pk1.Click += (sender, e) =>
+            for (int i = 0; i < Zarzadzanie.liczbaPunktow; i++)
             {
-                string nr = "1";
-                wywolajQR(nr);
-            };
-            pk2.Click += (sender, e) =>
-            {
-                string nr = "2";
-                wywolajQR(nr);
-            };
-            pk3.Click += (sender, e) =>
-            {
-                string nr = "3";
-                wywolajQR(nr);
-            };
-            pk4.Click += (sender, e) =>
-            {
-                string nr = "4";
-                wywolajQR(nr);
-            };
-            pk5.Click += (sender, e) =>
-            {
-                string nr = "5";
-                wywolajQR(nr);
-            };
-            pk6.Click += (sender, e) =>
-            {
-                string nr = "6";
-                wywolajQR(nr);
-            };
-            pk7.Click += (sender, e) =>
-            {
-                string nr = "7";
-                wywolajQR(nr);
-            };
-            pk8.Click += (sender, e) =>
-            {
-                string nr = "8";
-                wywolajQR(nr);
-            };
-            pk9.Click += (sender, e) =>
-            {
-                string nr = "9";
-                wywolajQR(nr);
-            };
-            pk10.Click += (sender, e) =>
-            {
-                string nr = "10";
-                wywolajQR(nr);
-            };
-            pk11.Click += (sender, e) =>
-            {
-                string nr = "11";
-                wywolajQR(nr);
-            };
-            pk12.Click += (sender, e) =>
-            {
-                string nr = "12";
-                wywolajQR(nr);
-            };
+                pk[i].Click += (sender, e) =>
+                {
+                    string nr = i.ToString();
+                    wywolajQR(nr);
+                };
+            }
 
 
             //Dodanie funkcji do przycisku Zakoncz gre/Powrot do menu
@@ -337,78 +288,40 @@ namespace Chaszcze
         //option to nazwa koloru w języku angielskim
         static public void zmienKolor(string nr, string option)
         {
-            Button pk;
-            switch (nr)
-            {
-                case "1":
-                    pk = pk1;
-                    break;
-                case "2":
-                    pk = pk2;
-                    break;
-                case "3":
-                    pk = pk3;
-                    break;
-                case "4":
-                    pk = pk4;
-                    break;
-                case "5":
-                    pk = pk5;
-                    break;
-                case "6":
-                    pk = pk6;
-                    break;
-                case "7":
-                    pk = pk7;
-                    break;
-                case "8":
-                    pk = pk8;
-                    break;
-                case "9":
-                    pk = pk9;
-                    break;
-                case "10":
-                    pk = pk10;
-                    break;
-                case "11":
-                    pk = pk11;
-                    break;
-                case "12":
-                    pk = pk12;
-                    break;
-                default:
-                    pk = pk1;
-                    break;
-            }
+            Button pkt;
+            int nrINT = Int32.Parse(nr);
+            pkt = pk[nrINT - 1];
+            Color kolor;
 
             switch (option)
             {
                 case "red":
-                    pk.SetBackgroundColor(Color.Red);
+                    kolor = Color.Red;
                     break;
                 case "green":
-                    pk.SetBackgroundColor(Color.Green);
+                    kolor = Color.Green;
                     break;
                 case "yellow":
-                    pk.SetBackgroundColor(Color.Yellow);
+                    kolor = Color.Yellow;
                     break;
                 case "orange":
-                    pk.SetBackgroundColor(Color.Orange);
+                    kolor = Color.Orange;
                     break;
                 case "black":
-                    pk.SetBackgroundColor(Color.Black);
-                    pk.SetTextColor(Color.White);
+                    kolor = Color.Black;
+                    pkt.SetTextColor(Color.White);
                     break;
                 case "white":
-                    pk.SetBackgroundColor(Color.White);
+                    kolor = Color.White;
                     break;
                 case "light_gray":
-                    pk.SetBackgroundColor(Color.LightGray);
+                    kolor = Color.LightGray;
                     break;
                 default:
-                    pk.SetBackgroundColor(Color.LightGray);
+                    kolor = Color.LightGray;
                     break;
             }
+            pkt.SetBackgroundColor(kolor);
         }
     }
 }

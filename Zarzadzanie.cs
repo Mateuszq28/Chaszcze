@@ -37,20 +37,27 @@ namespace Chaszcze
         static string nazwaPliku = "zapis_chaszcze.txt";
         private static TimeSpan limitCzasu = TimeSpan.Parse("02:00");
         private static TimeSpan limitSpoznien = TimeSpan.Parse("02:45");
+        //liczba wszystkich lampionów
+        public const int liczbaPunktow = 15;
+        //liczba stowarzyszy +1
+        private const int liczbaLampNaPunkt = 10;
         //Wszystkie kody do lampionów
         //Pierwsza kolumna to wlasciwy punkt, pozostale to stowarzysze
-        private static string[,] wzorcowka = new string[12, 10] {  { "1-VN", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI" },
-                                                            { "2-WK", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL" },
-                                                            { "3-NA", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE" },
-                                                            { "4-SR", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO" },
-                                                            { "5-MZ", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF" },
-                                                            { "6-BS", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY" },
-                                                            { "7-NJ", "7-BA", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD" },
-                                                            { "8-KS", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT" },
-                                                            { "9-OT", "9-HJ", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI" },
-                                                            { "10-GL", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ" },
-                                                            { "11-KL", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC" },
-                                                            { "12-PB", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ" }};
+        private static string[,] wzorcowka = new string[liczbaPunktow, liczbaLampNaPunkt] {  { "1-VN", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI", "1-TI" },
+                                                                                            { "2-WK", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL", "2-JL" },
+                                                                                            { "3-NA", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE", "3-DE" },
+                                                                                            { "4-SR", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO", "4-GO" },
+                                                                                            { "5-MZ", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF", "5-KF" },
+                                                                                            { "6-BS", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY", "6-PY" },
+                                                                                            { "7-NJ", "7-BA", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD", "7-UD" },
+                                                                                            { "8-KS", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT", "8-LT" },
+                                                                                            { "9-OT", "9-HJ", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI", "9-CI" },
+                                                                                            { "10-GL", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ", "10-EJ" },
+                                                                                            { "11-KL", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC", "11-MC" },
+                                                                                            { "12-PB", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ", "12-OZ" },
+                                                                                            { "13-NO", "13-RH", "13-RH", "13-RH", "13-RH", "13-RH", "13-RH", "13-RH", "13-RH", "13-RH" },
+                                                                                            { "14-UF", "14-JE", "14-JE", "14-JE", "14-JE", "14-JE", "14-JE", "14-JE", "14-JE", "14-JE" },
+                                                                                            { "15-SH", "15-MT", "15-MT", "15-MT", "15-MT", "15-MT", "15-MT", "15-MT", "15-MT", "15-MT" }};
 
 
         //Resetuje grę - czyści zmienne
@@ -188,7 +195,7 @@ namespace Chaszcze
 
             if (czyGraTrwa)
             {
-                for (int i = 1; i <= 12; i++)
+                for (int i = 1; i <= liczbaPunktow; i++)
                 {
                     znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
                     if (znaleziono == 0)
@@ -213,7 +220,7 @@ namespace Chaszcze
                 kodyLampionow.Reverse();
 
                 //Sprawdzanie poprawności kodów lampionów
-                for (int i = 0; i < 12; i++)
+                for (int i = 0; i < liczbaPunktow; i++)
                 {
                     znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
 
@@ -233,7 +240,7 @@ namespace Chaszcze
                         }
                         else
                         {
-                            for (int j = 1; j < 10; j++)
+                            for (int j = 1; j < liczbaLampNaPunkt; j++)
                             {
                                 if (kod == wzorcowka[i, j])
                                 {
@@ -287,7 +294,7 @@ namespace Chaszcze
             }
 
             //Sprawdzanie poprawności kodów lampionów
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < liczbaPunktow; i++)
             {
                 znaleziono = kodyLampionow.Count(x => x.StartsWith(i + 1 + "-"));
 
@@ -310,7 +317,7 @@ namespace Chaszcze
                     }
                     else
                     {
-                        for (int j = 1; j < 10; j++)
+                        for (int j = 1; j < liczbaLampNaPunkt; j++)
                         {
                             if (kod == wzorcowka[i, j])
                             {
