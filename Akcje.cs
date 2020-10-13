@@ -23,11 +23,20 @@ using Android.Support.V7.App;
 using ZXing;
 using ZXing.Common;
 
+//do formatowania dat
+using System.Globalization;
+
 namespace Chaszcze
 {
     [Activity(Label = "Akcje")]
     public class Akcje : Activity
     {
+        //Do rozpoznawania formatu daty
+        static CultureInfo provider = CultureInfo.InvariantCulture;
+        static string formatData = "dd.MM.yyyy HH:mm:ss";
+        static string formatGodzina = "HH:mm";
+
+
         //Przyciski odpowiadające polom na kody z lampionów 1-12
         static public Button[] pk = new Button[Zarzadzanie.liczbaPunktow];
         static public Button empty;
@@ -167,11 +176,11 @@ namespace Chaszcze
             //Wyswietl info zwrotne
             string infoZwrotne = "Nazwa patrolu: " + Zarzadzanie.nazwaPatrolu;
             infoZwrotne += "\nPunkty karne: " + Zarzadzanie.karne;
-            infoZwrotne += "\nCzas rozpoczęcia: " + Zarzadzanie.czasRozpoczecia.ToString("dd.MM.yyyy HH:mm");
-            infoZwrotne += "\nMinuta startowa: " + Zarzadzanie.minutaStartowa.ToString("HH:mm");
-            infoZwrotne += "\nCzas zakończenia: " + Zarzadzanie.czasZakonczenia.ToString("dd.MM.yyyy HH:mm");
-            infoZwrotne += "\nMinuta zakończenia: " + Zarzadzanie.minutaZakonczenia.ToString("HH:mm");
-            infoZwrotne += "\nCałkowity czas przejścia: " + (DateTime.MinValue + Zarzadzanie.calkowityCzas).ToString("HH:mm");
+            infoZwrotne += "\nCzas rozpoczęcia: " + Zarzadzanie.czasRozpoczecia.ToString(formatData, provider);
+            infoZwrotne += "\nMinuta startowa: " + Zarzadzanie.minutaStartowa.ToString(formatGodzina, provider);
+            infoZwrotne += "\nCzas zakończenia: " + Zarzadzanie.czasZakonczenia.ToString(formatData, provider);
+            infoZwrotne += "\nMinuta zakończenia: " + Zarzadzanie.minutaZakonczenia.ToString(formatGodzina, provider);
+            infoZwrotne += "\nCałkowity czas przejścia: " + (DateTime.MinValue + Zarzadzanie.calkowityCzas).ToString(formatGodzina, provider);
             infoZwrotne += "\n\nLegenda:";
             infoZwrotne += "\nzielony - prawidłowy Punkt Kontrolny (0)";
             infoZwrotne += "\npomarańczowy - Punkt Stowarzyszony (25)";
@@ -217,7 +226,7 @@ namespace Chaszcze
             ImageView obrazek = FindViewById<ImageView>(Resource.Id.imageView1);
 
             //Ustaw nagłówek karty patrolu
-            textGodz.Text = Zarzadzanie.nazwaPatrolu + "\nGodzina startu: " + Zarzadzanie.czasRozpoczecia.ToString("HH:mm") + " (" + Zarzadzanie.minutaStartowa.ToString("HH:mm") + ")";
+            textGodz.Text = Zarzadzanie.nazwaPatrolu + "\nGodzina startu: " + Zarzadzanie.czasRozpoczecia.ToString(formatGodzina, provider) + " (" + Zarzadzanie.minutaStartowa.ToString(formatGodzina, provider) + ")";
             //Ustaw Legendę na dole ekranu
             string zasady = "Legenda:\nzielony - zebrany Punkt Kontrolny\nżółty - poprawiony Punkt Kontrolny (10 punktów karnych za każdną poprawkę)";
             zasady += "\n\nZasady:";

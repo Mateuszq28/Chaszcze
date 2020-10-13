@@ -12,10 +12,18 @@ using Android.Widget;
 
 using System.IO;
 
+//do formatowania dat
+using System.Globalization;
+
 namespace Chaszcze
 {
     class Zarzadzanie
     {
+        //Do rozpoznawania formatu daty
+        static CultureInfo provider = CultureInfo.InvariantCulture;
+        static string formatData = "dd.MM.yyyy HH:mm:ss";
+        static string formatGodzina = "HH:mm";
+
         //Zmienne podawane na początku gry
         static public string nazwaPatrolu;
         static public DateTime minutaStartowa;
@@ -35,8 +43,8 @@ namespace Chaszcze
         //Stałe wartości
         //Nazwa pliku do zapisywania savów z gry
         static string nazwaPliku = "zapis_chaszcze.txt";
-        private static TimeSpan limitCzasu = TimeSpan.Parse("01:45");
-        private static TimeSpan limitSpoznien = TimeSpan.Parse("00:45");
+        private static TimeSpan limitCzasu = TimeSpan.ParseExact("01:45", formatGodzina, provider);
+        private static TimeSpan limitSpoznien = TimeSpan.ParseExact("00:45", formatGodzina, provider);
         //liczba wszystkich lampionów
         public const int liczbaPunktow = 15;
         //liczba stowarzyszy +1
@@ -95,12 +103,12 @@ namespace Chaszcze
             {
                 zawartocPliku += "\n0";
             }
-            zawartocPliku += "\n" + minutaStartowa.ToString();
-            zawartocPliku += "\n" + czasRozpoczecia.ToString();
-            zawartocPliku += "\n" + minutaZakonczenia.ToString();
-            zawartocPliku += "\n" + czasZakonczenia.ToString();
+            zawartocPliku += "\n" + minutaStartowa.ToString(formatData, provider);
+            zawartocPliku += "\n" + czasRozpoczecia.ToString(formatData, provider);
+            zawartocPliku += "\n" + minutaZakonczenia.ToString(formatData, provider);
+            zawartocPliku += "\n" + czasZakonczenia.ToString(formatData, provider);
             zawartocPliku += "\n" + karne;
-            zawartocPliku += "\n" + calkowityCzas.ToString();
+            zawartocPliku += "\n" + calkowityCzas.ToString(formatGodzina, provider);
 
             foreach (string kod in kodyLampionow)
             {
@@ -146,22 +154,22 @@ namespace Chaszcze
                 if ((line = reader.ReadLine()) != null)
                 {
                     zawartoscPliku += "\n" + line;
-                    minutaStartowa = DateTime.Parse(line);
+                    minutaStartowa = DateTime.ParseExact(line, formatData, provider);
                 }
                 if ((line = reader.ReadLine()) != null)
                 {
                     zawartoscPliku += "\n" + line;
-                    czasRozpoczecia = DateTime.Parse(line);
+                    czasRozpoczecia = DateTime.ParseExact(line, formatData, provider);
                 }
                 if ((line = reader.ReadLine()) != null)
                 {
                     zawartoscPliku += "\n" + line;
-                    minutaZakonczenia = DateTime.Parse(line);
+                    minutaZakonczenia = DateTime.ParseExact(line, formatData, provider);
                 }
                 if ((line = reader.ReadLine()) != null)
                 {
                     zawartoscPliku += "\n" + line;
-                    czasZakonczenia = DateTime.Parse(line);
+                    czasZakonczenia = DateTime.ParseExact(line, formatData, provider);
                 }
                 if ((line = reader.ReadLine()) != null)
                 {
@@ -171,7 +179,7 @@ namespace Chaszcze
                 if ((line = reader.ReadLine()) != null)
                 {
                     zawartoscPliku += "\n" + line;
-                    calkowityCzas = TimeSpan.Parse(line);
+                    calkowityCzas = TimeSpan.ParseExact(line, formatGodzina, provider);
                 }
 
                 kodyLampionow.Clear();
