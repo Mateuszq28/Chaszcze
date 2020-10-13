@@ -178,8 +178,8 @@ namespace Chaszcze
             infoZwrotne += "\nczarny - brak Punktu Kontrolnego (90)";
             infoZwrotne += "\nczerwony - Punkt Mylny lub o innym numerze (90+60)";
             infoZwrotne += "\n\n10 punktów karnych za każdą poprawkę";
-            infoZwrotne += "\n1 punkt karny za każdą minutę spóźnienia w limicie spóźnień";
-            infoZwrotne += "\n10 punktów karnych za każdą minutę spóźnienia w poza limitem spóźnień\n";
+            infoZwrotne += "\n1 punkt karny za każdą minutę spóźnienia\nw limicie spóźnień";
+            infoZwrotne += "\n10 punktów karnych za każdą minutę spóźnienia poza limitem spóźnień\n";
             pole.Text = infoZwrotne;
         }
 
