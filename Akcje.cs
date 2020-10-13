@@ -34,7 +34,7 @@ namespace Chaszcze
         //Do rozpoznawania formatu daty
         static CultureInfo provider = CultureInfo.InvariantCulture;
         static string formatData = "dd.MM.yyyy HH:mm:ss";
-        static string formatGodzina = "HH:mm";
+        static string formatGodzina = "HH:mm:ss";
 
 
         //Przyciski odpowiadające polom na kody z lampionów 1-12

@@ -43,8 +43,8 @@ namespace Chaszcze
         //Stałe wartości
         //Nazwa pliku do zapisywania savów z gry
         static string nazwaPliku = "zapis_chaszcze.txt";
-        private static TimeSpan limitCzasu = TimeSpan.ParseExact("01:45", formatGodzina, provider);
-        private static TimeSpan limitSpoznien = TimeSpan.ParseExact("00:45", formatGodzina, provider);
+        private static TimeSpan limitCzasu = TimeSpan.Parse("01:45");
+        private static TimeSpan limitSpoznien = TimeSpan.Parse("00:45");
         //liczba wszystkich lampionów
         public const int liczbaPunktow = 15;
         //liczba stowarzyszy +1
@@ -108,7 +108,7 @@ namespace Chaszcze
             zawartocPliku += "\n" + minutaZakonczenia.ToString(formatData, provider);
             zawartocPliku += "\n" + czasZakonczenia.ToString(formatData, provider);
             zawartocPliku += "\n" + karne;
-            zawartocPliku += "\n" + calkowityCzas.ToString(formatGodzina, provider);
+            zawartocPliku += "\n" + calkowityCzas.ToString();
 
             foreach (string kod in kodyLampionow)
             {
@@ -179,7 +179,7 @@ namespace Chaszcze
                 if ((line = reader.ReadLine()) != null)
                 {
                     zawartoscPliku += "\n" + line;
-                    calkowityCzas = TimeSpan.ParseExact(line, formatGodzina, provider);
+                    calkowityCzas = TimeSpan.Parse(line);
                 }
 
                 kodyLampionow.Clear();
