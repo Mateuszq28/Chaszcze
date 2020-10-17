@@ -22,7 +22,7 @@ namespace Chaszcze
         //Do rozpoznawania formatu daty
         static CultureInfo provider = CultureInfo.InvariantCulture;
         static string formatData = "dd.MM.yyyy HH:mm:ss";
-        static string formatGodzina = "HH:mm";
+        //static string formatGodzina = "HH:mm";
 
         //Zmienne podawane na początku gry
         static public string nazwaPatrolu;
@@ -272,6 +272,13 @@ namespace Chaszcze
         }
 
 
+        //Oblicza ile minut minęło w interwale czasu
+        static int ileMinut(TimeSpan czas)
+        {
+            return czas.Days * 24 * 60 + czas.Hours * 60 + czas.Minutes;
+        }
+
+
         //Kończy grę
         static public string zakonczenie()
         {
@@ -293,11 +300,11 @@ namespace Chaszcze
             {
                 if (calkowityCzas > limitSpoznien)
                 {
-                    karne += (limitSpoznien - limitCzasu).Minutes + (calkowityCzas - limitSpoznien).Minutes * 10;
+                    karne += ileMinut(limitSpoznien - limitCzasu) + ileMinut(calkowityCzas - limitSpoznien) * 10;
                 }
                 else
                 {
-                    karne += (calkowityCzas - limitCzasu).Minutes;
+                    karne += ileMinut(calkowityCzas - limitCzasu);
                 }
             }
 
