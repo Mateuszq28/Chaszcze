@@ -149,8 +149,15 @@ namespace Chaszcze
                     Bitmap bitmap = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888);
                     bitmap.SetPixels(pixelsImage, 0, width, 0, 0, width, height);
 
+                    /*
+                    METODA Z ŚCEIŻKĄ DO GŁÓWNEGO FOLDERU PAMIĘCI WEWNĘTRZNEJ - DZIAŁA!
                     var sdpath = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
                     var path = System.IO.Path.Combine(sdpath, "logeshbarcode.jpg");
+                    */
+
+                    //METODA Z ŚCIEŻKĄ DO UKRYTEGO FOLDERU
+                    var path = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "logeshbarcode.jpg");
+
                     var stream = new FileStream(path, FileMode.Create);
                     bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
                     stream.Close();

@@ -43,8 +43,8 @@ namespace Chaszcze
         //Stałe wartości
         //Nazwa pliku do zapisywania savów z gry
         static string nazwaPliku = "zapis_chaszcze.txt";
-        private static TimeSpan limitCzasu = TimeSpan.Parse("01:45");
-        private static TimeSpan limitSpoznien = TimeSpan.Parse("00:45");
+        private static TimeSpan limitCzasu = TimeSpan.Parse("01:45"); //Godzina progowa!
+        private static TimeSpan limitSpoznien = TimeSpan.Parse("02:30"); //Godzina progowa!
         //liczba wszystkich lampionów
         public const int liczbaPunktow = 15;
         //liczba stowarzyszy +1
